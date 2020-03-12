@@ -1,0 +1,38 @@
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  #TOP LINK ESTABLISHES THE RULES OF HOW DOMAINS COMMUNICATE WITH OUR APPLICATION.
+  #IF NOT WHITELISTED IT WILL NOT ALLOW IT.
+
+  # CORS GIVES YOU ABILITY TO WHITELIST CERTAIN DOMAINS.
+  #WE ARE PASSING SECURE COOKIES FROM FRONT-END TO BACL-END
+  #WE NEED TO USE A TOOL CALLED CREDENTIALS.
+  #CREDENTIALS REQUIRES A TOOL LIKE CORS TO GIVE SPECIFIC SET OF RULES
+  #ON HOW TO COMMUNICATE. THIS INITIALIZER DEFINES THESE RULES.
+
+  #BELOW ESTABLISHES WHICH DOMAINS ARE WHITELISTED AND ARE ALLOWED TO
+  #COMMUNICATE WITH OUR APPLICATION.
+  #IT ALSO ESTBLISHES WHICH METHODS ARE
+  #ALLOWED TO BE USED BY THE WHITELISTED DOMAIN.
+
+  #ORIGIN = WHITELISTED DOMAIN
+  #RESCOURCES GIVES RULES ON HOW IT COMMUNICATES
+  #CREDENTIALS TRUE = ALLOWS YOU TO PASS HEADERS BACK AND FORTH AND
+  #THE COOKIE FROM THE FRONT-END TO THE BACK-END VICE VERSA
+
+  #THIS IS LOCAL WHITELIST DOMAIN
+  allow do
+    origins 'http://localhost:3000'
+    resource '*',
+             header: :any,
+             methods: %i[get post put patch delete options head],
+             credentials: true
+  end
+
+  #THIS WHITELIST WILL BE WHERE WE ARE PUSHING OUR APP
+  allow do
+    origins 'http://authentication-my-app-for-production.herokuapp.com'
+    resource '*',
+             header: :any,
+             methods: %i[get post put patch delete options head],
+             credentials: true
+  end
+end
