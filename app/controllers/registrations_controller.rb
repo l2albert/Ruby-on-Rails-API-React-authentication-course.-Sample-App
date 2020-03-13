@@ -3,14 +3,13 @@ class RegistrationsController < ApplicationController
   #These values arw wrapped by the'user model and gets the nested value inside of the user model.
 
   def create
-    user =
-      User.create!(
+    user = User.create!(
         email: params['user']['email'],
         password: params['user']['password'],
         password_confirmation: params['user']['password_confirmation']
       )
 
-    #If the new user cookied made is equal to the new user_id made
+    #If the new user cookie made is equal to the new user_id from the model made
     #then it will render a new user if not it will render an error.
 
     if user
