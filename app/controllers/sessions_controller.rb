@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController # and it will run the CREATE method  #This will make a post request whenever the front-end hits the API
+  include CurrentUserConcern #Imports our user concern controller class so that we can use it inthe logged_in method
+
   #User Model is called, we want to find by email, the front end uses params to wrap up user object
   # and then the .try authenticate is directly built into the system and it knows becuase we used has_secure_password
   #this allows us to use the authenticate method built in for us by rails.
@@ -31,6 +33,28 @@ class SessionsController < ApplicationController # and it will run the CREATE me
   end
 
   def logged_in
-    #This method concern checks to see if a current user is available
+    #This method checks to see if a current user is available.
+    #We added a concern inside of the concerns folder.
+    
+    
+    #If they are logged in and their in a valid session_id, 
+    #we can say they are logged and and return their user account
+    if @current_user
+      render json: {
+        logged_in: true,
+        user: @current_user
+      } #No HTTP status request needed Since this is a get request and we're not creating or editing only asking a question
+    else 
+      render json: {
+        logged_in: false,
+      }
+    end
   end
+
+  #API can send this response back and the front-end can 
+  #say okay we are sure they are logged out on front end portion of app and this checks and verifys that.
+  def logout
+    reset_session
+    render json: { status: 200, logged_out: true}
+end 
 end
