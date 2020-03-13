@@ -29,4 +29,8 @@ class SessionsController < ApplicationController # and it will run the CREATE me
       render json: { status: 401 }
     end
   end
+
+  def logged_in
+    #This method concern checks to see if a current user is available
+  end
 end
